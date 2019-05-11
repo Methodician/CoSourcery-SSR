@@ -24,13 +24,13 @@ export class FireComponent implements OnInit {
   }
 
   updateMetaData = async () => {
-    const snaps = await this.afs
+    const snaps: any = await this.afs
       .collection('items')
       .valueChanges()
       .pipe(take(1))
       .toPromise();
 
-    this.title.setTitle('snaps[0].name');
+    this.title.setTitle(snaps[0].name);
     const stringifiedSnaps = snaps.map(
       (item: any) => `a thing called ${item.name} with ${item.other} `,
     );
