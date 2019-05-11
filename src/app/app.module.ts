@@ -15,7 +15,7 @@ import { environment } from '../environments/environment';
   declarations: [AppComponent, MetaComponent, FireComponent],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     AngularFirestoreModule,
   ],
