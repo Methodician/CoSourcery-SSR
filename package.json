@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build && npm run copy:hosting && npm run build:ssr && npm run build:functions",
+    "build": "ng build && npm run copy:hosting && npm run build:functions && npm run prerender:ssr",
+    "prerender:ssr": "set PRERENDER=1 && node dist/cosourcery-webpack/server.js",
     "copy:hosting": "cp -r ./dist/cosourcery/* ./public && rm ./public/index.html",
     "build:functions": "npm run --prefix functions build",
     "build:ssr": "ng run cosourcery:server && npm run webpack:ssr",
@@ -52,6 +53,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "mkdir-recursive": "^0.4.0",
     "protractor": "~5.4.0",
     "ts-loader": "^6.0.0",
     "ts-node": "~7.0.0",
