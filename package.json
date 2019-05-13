@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build && npm run build:functions && npm run build:ssr && npm run build:hosting",
-    "build:prod": "ng build --prod && npm run build:functions && npm run build:ssr && npm run build:hosting",
+    "build": "ng build && npm run build:functions && npm run && npm run build:hosting",
+    "build:prod": "ng build --prod && npm run build:functions && npm run && npm run build:hosting",
     "build:hosting": "npm run copy:hosting && set PRERENDER=1 && npm run serve:ssr",
     "copy:hosting": "cp -r ./dist/cosourcery/* ./public && rm ./public/index.html",
     "build:functions": "npm run --prefix functions build",

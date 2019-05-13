@@ -55,28 +55,27 @@ app.get('*', (req, res) => {
 });
 
 // from https://github.com/angular/angularfire2/blob/master/docs/universal/prerendering.md
-// if (process.env.PRERENDER) {
-const routes = require('./static.paths').default;
-Promise.all(
-  routes.map(route =>
-    renderModuleFactory(AppServerModuleNgFactory, {
-      document: template,
-      url: route,
-      extraProviders: [provideModuleMap(LAZY_MODULE_MAP)],
-    }).then(html => [route, html]),
-  ),
-).then(results => {
-  results.forEach(([route, html]) => {
-    const fullPath = join('./public', route);
-    if (!existsSync(fullPath)) {
-      mkdirSync(fullPath);
-    }
-    writeFileSync(join(fullPath, 'index.html'), html);
+if (process.env.PRERENDER) {
+  const routes = require('./static.paths').default;
+  Promise.all(
+    routes.map(route =>
+      renderModuleFactory(AppServerModuleNgFactory, {
+        document: template,
+        url: route,
+        extraProviders: [provideModuleMap(LAZY_MODULE_MAP)],
+      }).then(html => [route, html]),
+    ),
+  ).then(results => {
+    results.forEach(([route, html]) => {
+      const fullPath = join('./public', route);
+      if (!existsSync(fullPath)) {
+        mkdirSync(fullPath);
+      }
+      writeFileSync(join(fullPath, 'index.html'), html);
+    });
+    process.exit();
   });
-  process.exit();
-});
-// } else if (!process.env.FUNCTION_NAME) {
-if (!process.env.FUNCTION_NAME) {
+} else if (!process.env.FUNCTION_NAME) {
   // If we're not in the Cloud Functions environment, spin up a Node server
   const PORT = process.env.PORT || 4000;
   app.listen(PORT, () => {
